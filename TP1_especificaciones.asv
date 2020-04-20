@@ -1,0 +1,25 @@
+clear
+close all
+
+A=csvread('fftTRI.DAT',1,0);
+freq1=A(:,1);
+freqtriang1=A(:,2);
+A=csvread('fftTRI.DAT',1,0);
+freq1=A(:,1);
+freqtriang1=A(:,2);
+
+A=csvread('simTP1.DAT',1,0);
+time=A(:,1);
+square=A(:,2);
+triang=A(:,3);
+sine=A(:,5);
+
+
+plot(freq1,freqtriang1);
+grid on;
+
+%------------busco la fundamental de la triangular------
+[f0trianf,posf0,amptriang]=FindFundamentalFreq(freq1,freqtriang1);
+
+
+
