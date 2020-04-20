@@ -27,4 +27,12 @@ function retval=SignalDistortion(FFTsignal,freq,type,nroHarm,dB)
     plot(freq,FFTsignal);
     hold on;
     plot(fHarm,AnTeo,'ro');
+    grid on;
+    title(strcat('Distorsion=',string(retval*100),'%'))
+    xlabel('Frecuencia (Hz)');
+    ylabel('Magnitud');
+    Legen1=strcat("fundamental F_0=",string(f0)," Hz");
+    Legen2=strcat("harmonicos    cantidad=",string(nroHarm));
+    legend(Legen1,Legen2);
+    
 end

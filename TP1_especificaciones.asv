@@ -3,10 +3,14 @@ close all
 
 A=csvread('fftTRI.DAT',1,0);
 freq1=A(:,1);
-freqtriang1=A(:,2);
-A=csvread('fftTRI.DAT',1,0);
-freq1=A(:,1);
-freqtriang1=A(:,2);
+ffttri=A(:,2);
+A=csvread('fftCUA.DAT',1,0);
+freq2=A(:,1);
+fftcuad=A(:,2);
+A=csvread('fftCSIN.DAT',1,0);
+freq3=A(:,1);
+fftsin=A(:,2);
+
 
 A=csvread('simTP1.DAT',1,0);
 time=A(:,1);
@@ -15,11 +19,15 @@ triang=A(:,3);
 sine=A(:,5);
 
 
-plot(freq1,freqtriang1);
-grid on;
 
-%------------busco la fundamental de la triangular------
-[f0trianf,posf0,amptriang]=FindFundamentalFreq(freq1,freqtriang1);
+
+
+dist_triang=SignalDistortion(ffttri,freq1,'T',25,tr)
+figure
+dist_cuadrada=SignalDistortion(fftcuad,freq2,'C',25,false)
+figure
+dist_seno=SignalDistortion(fftsin,freq3,'S',50,false)
+
 
 
 

@@ -3,7 +3,7 @@ close all
 
 A=csvread('fftTRI.DAT',1,0);
 freq1=A(:,1);
-freqtriang1=A(:,2);
+ffttri=A(:,2);
 A=csvread('fftCUA.DAT',1,0);
 freq2=A(:,1);
 fftcuad=A(:,2);
@@ -22,11 +22,11 @@ sine=A(:,5);
 
 
 
-dist_triang=SignalDistortion(freqtriang1,freq1,'T',25,true)
+dist_triang=SignalDistortion(ffttri,freq1,'T',25,false)
 figure
 dist_cuadrada=SignalDistortion(fftcuad,freq2,'C',25,false)
 figure
-dist_seno=SignalDistortion(fftsin,freq3,'S',15,true)
+dist_seno=SignalDistortion(fftsin,freq3,'S',50,false)
 
 
 
