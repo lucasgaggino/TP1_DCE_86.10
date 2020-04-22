@@ -28,6 +28,6 @@ dist_cuadrada=SignalDistortion(fftcuad,freq2,'C',25,false)
 figure
 dist_seno=SignalDistortion(fftsin,freq3,'S',50,false)
 
-
+    
 
 

@@ -1,0 +1,88 @@
+clear 
+close all
+
+Ts=10e-6;
+t=0:Ts:10;
+f0=500;
+cant_osc_graf=5;
+%**************************SENO***********************************%
+wt=f0*2*pi;
+seno=sin(wt*t);
+seno_ruido=seno+0.1*sin(2*wt*t)+0.1*sin(3*wt*t)+0.1*sin(4*wt*t)+0.1*sin(5*wt*t);
+
+fft_seno=fft(seno);
+fft_seno=fft_seno(1:floor(size(t,2)/2));
+fft_seno_ruido=fft(seno_ruido);
+fft_seno_ruido=fft_seno_ruido(1:floor(size(t,2)/2));
+
+L=size(fft_seno,2);
+fft_freq=(0:L-1)/(Ts*L*2);
+figure
+
+subplot(2,2,[1,3])
+plot(t,seno_ruido,'r','LineWidth',1);
+hold on
+plot(t,seno,'b','LineWidth',1);
+axis([0 cant_osc_graf/f0 -1.2 1.2])
+xlabel('tiempo (t)');
+ylabel('Amplitud (V)');
+grid on
+legend('Seno con Ruido','Seno Puro');
+
+subplot(2,2,2)
+dist_seno=SignalDistortion(abs(fft_seno),fft_freq,'S',30,false);
+axis([0 f0*30 0 6e5 ])
+xlabel('Frecuencia (Hz)');
+title(strcat('FFT Seno Puro  ','      F_D=',string(dist_seno*100),'%'));
+grid minor;
+
+subplot(2,2,4)
+dist_seno=SignalDistortion(abs(fft_seno_ruido),fft_freq,'S',30,false);
+axis([0 f0*30 0 6e5 ])
+xlabel('Frecuencia (Hz)');
+grid minor;
+title(strcat('FFT Seno con Ruido ','      F_D=',string(dist_seno*100),'%'));
+
+
+%****************************CUADRADA*******************************
+
+wt=f0*2*pi;
+cuad=double(sin(wt*t)>=0)*2-1;
+s=tf('s');
+tau=50e-6;
+lp=(1/tau)/(s+1/tau);
+cuad_ruido=lsim(lp,cuad,t);
+
+fft_cuad=fft(cuad);
+fft_cuad=fft_cuad(1:floor(size(t,2)/2));
+fft_cuad_ruido=fft(cuad_ruido);
+fft_cuad_ruido=fft_cuad_ruido(1:floor(size(t,2)/2));
+
+L=size(fft_cuad,2);
+fft_freq=(0:L-1)/(Ts*L*2);
+figure
+
+subplot(2,2,[1,3])
+plot(t,cuad_ruido,'r','LineWidth',1);
+hold on
+plot(t,cuad,'b','LineWidth',1);
+axis([0 cant_osc_graf/f0 -1.2 1.2])
+xlabel('tiempo (t)');
+ylabel('Amplitud (V)');
+grid on
+legend('Cuadrada D','Cuadrada Pura');
+
+subplot(2,2,2)
+dist_cuad=SignalDistortion(abs(fft_cuad),fft_freq,'C',15,false);
+axis([0 f0*30 0 10e5 ])
+xlabel('Frecuencia (Hz)');
+title(strcat('FFT cuad Puro  ','      F_D=',string(dist_cuad*100),'%'));
+grid minor;
+
+subplot(2,2,4)
+dist_cuad=SignalDistortion(abs(fft_cuad_ruido),fft_freq,'C',15,false);
+axis([0 f0*30 0 10e5 ])
+xlabel('Frecuencia (Hz)');
+grid minor;
+title(strcat('FFT cuad con Ruido ','      F_D=',string(dist_cuad*100),'%'));
+
