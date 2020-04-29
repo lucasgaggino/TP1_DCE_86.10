@@ -21,12 +21,14 @@ function retval=SignalDistortion(FFTsignal,freq,type,nroHarm,dB)
     
     acum=zeros(nroHarm,1);
     for i=1:nroHarm
-        acum(i)=(AnTeo(i)-FFTsignal(findPosFreq(freq,fHarm(i))) )^2;
+        temp_pos=findPosFreq(freq,fHarm(i),FFTsignal);
+        acum(i)=(AnTeo(i)-FFTsignal( temp_pos) )^2;
+        fHarm(i)=freq(temp_pos);
     end
-    retval=sum(acum)/(amp^2);
+    retval=sqrt(sum(acum))/amp;
     
     loyolagreen = 1/255*[0,104,87];
-    plot(freq,FFTsignal);
+    plot(freq,FFTsignal,'-b','LineWidth',1.5);
     hold on;
     plot(fHarm,AnTeo,'ro');
     plot(f0,amp,'o','Color',loyolagreen);

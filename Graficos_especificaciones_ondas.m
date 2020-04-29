@@ -7,9 +7,10 @@ f0=500;
 cant_osc_graf=5;
 %% **************************SENO***********************************%
 wt=f0*2*pi;
-seno=sin(wt*t);
-seno_ruido=seno+0.1*sin(2*wt*t)+0.1*sin(3*wt*t)+0.1*sin(4*wt*t)+0.1*sin(5*wt*t);
 
+seno=sin(wt*t);
+seno_ruido=seno+0.01*sin(2*wt*t)+0.01*sin(3*wt*t)+0.01*sin(4*wt*t)+0.05*sin(5*wt*t);
+N=size(t,2);
 fft_seno=fft(seno);
 fft_seno=fft_seno(1:floor(size(t,2)/2));
 fft_seno_ruido=fft(seno_ruido);
@@ -31,14 +32,16 @@ legend('Seno con Ruido','Seno Puro');
 
 subplot(2,2,2)
 dist_seno=SignalDistortion(abs(fft_seno),fft_freq,'S',30,false);
-axis([0 f0*30 0 6e5 ])
+ylim=max(abs(fft_seno),2)*1.2;
+axis([0 f0*30 0 8e5 ])
 xlabel('Frecuencia (Hz)');
 title(strcat('FFT Seno Puro  ','      F_D=',string(dist_seno*100),'%'));
 grid minor;
 
 subplot(2,2,4)
 dist_seno=SignalDistortion(abs(fft_seno_ruido),fft_freq,'S',30,false);
-axis([0 f0*30 0 6e5 ])
+ylim=max(abs(fft_seno_ruido),2)*1.2;
+axis([0 f0*30 0 8e5 ])
 xlabel('Frecuencia (Hz)');
 grid minor;
 title(strcat('FFT Seno con Ruido ','      F_D=',string(dist_seno*100),'%'));

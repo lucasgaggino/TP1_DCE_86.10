@@ -17,16 +17,25 @@ time=A(:,1);
 square=A(:,2);
 triang=A(:,3);
 sine=A(:,5);
+figure;
+plot(time,sine,'.b');
+hold on;
+grid on;    
+axis([0.1 0.11 -12 12])
+
+Ts=10e-6;
+t=0.1:Ts:1.1;
+sineINT = interp1(time,sine,t,'spline');
+plot(t,sineINT,'or');
 
 
 
-
-
-dist_triang=SignalDistortion(ffttri,freq1,'T',25,false)
+figure;
+dist_triang=SignalDistortion(ffttri,freq1,'T',15,false)
 figure
-dist_cuadrada=SignalDistortion(fftcuad,freq2,'C',25,false)
+dist_cuadrada=SignalDistortion(fftcuad,freq2,'C',15,false)
 figure
-dist_seno=SignalDistortion(fftsin,freq3,'S',50,false)
+dist_seno=SignalDistortion(fftsin,freq3,'S',30,false)
 
     
 
